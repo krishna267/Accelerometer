@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Accelerometer</string>
+    <string name="Heading">Accelerometer Data Filtering</string>
+</resources>
