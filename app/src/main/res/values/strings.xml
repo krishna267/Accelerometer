@@ -1,4 +1,15 @@
 <resources>
     <string name="app_name">Accelerometer</string>
-    <string name="Heading">Accelerometer Data Filtering</string>
+    <string-array name="data_points">
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string-array name="degree">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
 </resources>

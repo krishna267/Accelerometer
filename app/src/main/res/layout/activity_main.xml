@@ -7,22 +7,10 @@
     android:orientation="vertical"
     tools:context="krishna.example.com.accelerometer.MainActivity">
 
-    <TextView
-        android:id="@+id/heading"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="@string/Heading"
-        android:textColor="@android:color/background_dark"
-        android:textSize="20dp"
-        android:textStyle="bold" />
-
-
     <Button
         android:id="@+id/start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/heading"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="167dp"
         android:text="Start/Stop" />
@@ -32,7 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/start"
-        android:layout_margin="15dp" />
+        android:layout_margin="15dp"
+        android:padding="5dp" />
 
     <TextView
         android:id="@+id/textView"
@@ -40,13 +29,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/heading"
         android:layout_marginLeft="39dp"
         android:layout_marginStart="39dp"
         android:layout_marginTop="20dp"
         android:text="X Data"
         android:textAllCaps="false"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:textStyle="bold" />
 
     <TextView
@@ -58,7 +46,7 @@
         android:layout_below="@+id/textView"
         android:layout_marginTop="33dp"
         android:text="Y Data"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:textStyle="bold" />
 
     <TextView
@@ -70,30 +58,30 @@
         android:layout_below="@+id/textView2"
         android:layout_marginTop="24dp"
         android:text="Z Data"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/xdata"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textView2"
-        android:layout_marginLeft="36dp"
-        android:layout_marginStart="36dp"
-        android:layout_toEndOf="@+id/start"
-        android:layout_toRightOf="@+id/start"
+        android:layout_alignBaseline="@+id/textView"
+        android:layout_alignBottom="@+id/textView"
+        android:layout_alignLeft="@+id/ydata"
+        android:layout_alignStart="@+id/ydata"
         android:text="TextView"
-        android:textSize="18sp" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/ydata"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/xdata"
-        android:layout_alignRight="@+id/xdata"
-        android:layout_alignTop="@+id/textView2"
         android:text="TextView"
-        android:textSize="18sp" />
+        android:textSize="14sp"
+        android:layout_alignBaseline="@+id/textView2"
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_alignRight="@+id/start"
+        android:layout_alignEnd="@+id/start" />
 
     <TextView
         android:id="@+id/zdata"
@@ -103,6 +91,40 @@
         android:layout_alignRight="@+id/ydata"
         android:layout_alignTop="@+id/textView3"
         android:text="TextView"
-        android:textSize="18sp" />
+        android:textSize="14sp" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/graph"
+        android:layout_alignEnd="@+id/graph"
+        android:layout_below="@+id/xdata" />
+
+    <Spinner
+        android:id="@+id/spinner2"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/zdata"
+        android:layout_alignLeft="@+id/spinner"
+        android:layout_alignStart="@+id/spinner" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/spinner"
+        android:layout_alignRight="@+id/spinner"
+        android:layout_alignTop="@+id/xdata"
+        android:text="Data points" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/spinner2"
+        android:layout_alignEnd="@+id/spinner2"
+        android:layout_alignRight="@+id/spinner2"
+        android:text="Degree" />
 
 </RelativeLayout>
