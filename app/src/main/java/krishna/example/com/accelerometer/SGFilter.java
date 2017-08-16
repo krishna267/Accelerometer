@@ -250,7 +250,10 @@ public class SGFilter {
      * @return filtered data
      * @throws NullPointerException
      *             when any array passed as parameter is null
+     *
      */
+
+
     public double[] smooth(double[] data, double[] coeffs) {
         return smooth(data, 0, data.length, coeffs);
     }
