@@ -15,4 +15,16 @@
         <item>5</item>
         <item>6</item>
     </string-array>
+    <string-array name="filters">
+        <item>Sgolay</item>
+        <item>Exponential Moving Average</item>
+    </string-array>
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
+    <string-array name="alpha">
+        <item>0.2</item>
+        <item>0.4</item>
+        <item>0.6</item>
+        <item>0.8</item>
+    </string-array>
 </resources>
