@@ -122,13 +122,15 @@
             android:layout_margin="10dp" />
 
     </LinearLayout>
-    
+
     <ListView
-    android:layout_width="240dp"
-    android:layout_height="match_parent"
-    android:id="@+id/left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:id="@+id/left_drawer"
         android:layout_gravity="start"
         android:choiceMode="singleChoice"
         android:background="#fff"
         android:divider="@android:color/transparent"/>
+
+
 </android.support.v4.widget.DrawerLayout>

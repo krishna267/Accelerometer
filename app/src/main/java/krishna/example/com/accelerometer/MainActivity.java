@@ -1,5 +1,6 @@
 package krishna.example.com.accelerometer;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -19,11 +20,14 @@ import android.transition.Scene;
 import android.transition.Transition;
 import android.transition.TransitionManager;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -42,10 +46,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager sensorManager;
     private Sensor sensor;
     private Button start,reset;
-    private Boolean record =false,sgolay = true,ema =false;
+    private Boolean record =false,sgolay = true,ema =false,han = false;
     private GraphView graphView;
     private Handler handler;
-    private double  i=0,x0 = 0,alp = 0.2;
+    private double  i=0,x0 = 0,alp = 0.2,dpt0=0,dpt1=0,dpt2 = 0;
     private int n=10,d=2;
     private LineGraphSeries<DataPoint> series,filtered;
     private double[] coeff;
@@ -71,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         scene_root = (ViewGroup)findViewById(R.id.scene_root);
         datapoints = (Spinner)findViewById(R.id.spinner);
         degree = (Spinner)findViewById(R.id.spinner2);
-
         x = (TextView)findViewById(R.id.xdata);
         y = (TextView)findViewById(R.id.ydata);
         z = (TextView)findViewById(R.id.zdata);
@@ -123,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     case 0: {
                         sgolay = true;
                         refreshgraph();
+                        han = false;
                         ema = false;
                         record = false;
                         TransitionManager.go(mScene,mTransition);
@@ -131,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         datapoints.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
+                                refreshgraph();
                                 n = position + 10;
                             }
 
@@ -144,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         degree.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
+                                refreshgraph();
                                 d = position + 2;
                             }
 
@@ -152,11 +158,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
                             }
                         });
+                        drawerLayout.closeDrawers();
                         break;
                     }
                     case 1: {
                         refreshgraph();
                         ema = true;
+                        han = false;
                         sgolay = false;
                         record = false;
                         TransitionManager.go(mAnother,mTransition);
@@ -176,8 +184,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
                             }
                         });
+                        drawerLayout.closeDrawers();
                         break;
                     }
+                    case 2:
+                        refreshgraph();;
+                        sgolay = false;
+                        ema = false;
+                        han = true;
+                        dpt0= dpt1 = dpt2 =0;
+                        drawerLayout.closeDrawers();
+                        record = false;
+                        scene_root.removeAllViews();
                 }
             }
         });
@@ -199,6 +217,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         filtered.appendData(new DataPoint(i,dp),true,490);
                         x0 = dp;
                     }
+                    if(han && i>0.3){
+                        dpt0= dpt1;
+                        dpt1 = dpt2;
+                        dpt2 = (double)msg.obj;
+                        double dpt = (dpt2 +2*dpt1+dpt0)/4;
+                        filtered.appendData(new DataPoint(i-0.3,dpt),true,490);
+                    }
                     i = i +0.1;
                 }
             }
@@ -215,6 +240,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         datapoints.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
+                refreshgraph();
                 n = position + 10;
             }
 
@@ -227,6 +253,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         degree.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
+                refreshgraph();
                 d = position + 2;
             }
 
@@ -264,6 +291,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 record = false;
                 refreshgraph();
                 x0 = 0;
+                dpt1 =dpt2 = dpt0 =0;
             }
         });
 
@@ -290,7 +318,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content view
-        boolean drawerOpen = drawerLayout.isDrawerOpen(listView);
+        //boolean drawerOpen = drawerLayout.isDrawerOpen(listView);
         //menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
     }
@@ -338,5 +366,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             out = out+val[k]*cfs[k];
         }
         return out;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.optionsmenu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.info:
+                Intent intent = new Intent(MainActivity.this,Infoactivity.class);
+                //startActivity(intent);
+                return true;
+        }
+        return true;
     }
 }
